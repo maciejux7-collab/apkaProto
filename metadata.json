@@ -1,0 +1,10 @@
+{
+  "name": "Remix Protokół Konserwacji Bankowej - wysylanie linkow-przechodze na sql -",
+  "description": "",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
