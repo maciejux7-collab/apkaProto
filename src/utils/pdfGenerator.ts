@@ -180,7 +180,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
   });
 
   currentY += 4;
-  doc.setFont('helvetica', 'semibold');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   const inRackText = protocol.cctv.inRack === true ? 'TAK' : protocol.cctv.inRack === false ? 'NIE' : 'NIE OKRESLONO';
   doc.text(`Czy rejestrator znajduje sie w szafie serwerowej: ${inRackText}`, marginX, currentY);
@@ -261,7 +261,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
     // ATM Vestibule info
     currentY += 4;
     checkPageBreak(15);
-    doc.setFont('helvetica', 'semibold');
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     
     let hasAtmLockStr = 'NIE (brak blokady)';
@@ -335,7 +335,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
   if (!isIsland) {
     currentY += 4;
     checkPageBreak(12);
-    doc.setFont('helvetica', 'semibold');
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     let pathTypeStr = 'Nie wybrano';
     if (protocol.monitoring) {
@@ -353,7 +353,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
 
   if (protocol.monitoring?.gsmTransmitterNumber) {
     checkPageBreak(12);
-    doc.setFont('helvetica', 'semibold');
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     doc.text(`Numer nadajnika GSM na stacji SMA: ${sanitizeText(protocol.monitoring.gsmTransmitterNumber)}`, marginX, currentY);
     currentY += 5;
@@ -361,7 +361,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
 
   if (!isIsland && protocol.monitoring?.secondPathTransmitterNumber) {
     checkPageBreak(12);
-    doc.setFont('helvetica', 'semibold');
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     doc.text(`Numer nadajnika 2go toru na stacji SMA: ${sanitizeText(protocol.monitoring.secondPathTransmitterNumber)}`, marginX, currentY);
     currentY += 5;
@@ -425,7 +425,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
     if (leftRow) {
       doc.setDrawColor(borderColor[0], borderColor[1], borderColor[2]);
       doc.rect(leftX, currentY, colW, 11, 'S');
-      doc.setFont('helvetica', 'semibold');
+      doc.setFont('helvetica', 'bold');
       doc.text(sanitizeText(leftRow.name), leftX + 2, currentY + 4);
       doc.setFont('helvetica', 'normal');
       const leftCapStr = leftRow.capacity === 'brak_aku' ? 'brak aku' : `${leftRow.capacity}Ah`;
@@ -445,7 +445,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
       if (rightRow) {
         doc.setDrawColor(borderColor[0], borderColor[1], borderColor[2]);
         doc.rect(rightX, currentY, colW, 11, 'S');
-        doc.setFont('helvetica', 'semibold');
+        doc.setFont('helvetica', 'bold');
         doc.text(sanitizeText(rightRow.name), rightX + 2, currentY + 4);
         doc.setFont('helvetica', 'normal');
         const rightCapStr = rightRow.capacity === 'brak_aku' ? 'brak aku' : `${rightRow.capacity}Ah`;
@@ -466,7 +466,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
   // Dedicated Fuse Type
   if (!isIsland) {
     checkPageBreak(12);
-    doc.setFont('helvetica', 'semibold');
+    doc.setFont('helvetica', 'bold');
     doc.text('Dedykowany bezpiecznik w rozdzielni pod alarm: ', leftX, currentY + 4);
     doc.setFont('helvetica', 'normal');
     doc.text(sanitizeText(protocol.batteries.fuseType || 'nie podano'), leftX + 70, currentY + 4);
