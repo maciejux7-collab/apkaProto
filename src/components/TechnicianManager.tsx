@@ -22,9 +22,14 @@ export const TechnicianManager: React.FC = () => {
     try {
       const response = await fetch('/api/technicians');
       const data = await response.json();
-      setTechnicians(data);
+       if (Array.isArray(data)) {
+        setTechnicians(data);
+      } else {
+        setTechnicians([]);
+      }
     } catch (err) {
       console.error("Error fetching technicians:", err);
+      setTechnicians([]);
     }
   };
 

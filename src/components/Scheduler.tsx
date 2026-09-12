@@ -29,21 +29,31 @@ export const Scheduler: React.FC = () => {
       // Fetch Branches
       const branchesRes = await fetch('/api/branches');
       const branchesData = await branchesRes.json();
-      setBranches(branchesData);
+      if (Array.isArray(branchesData)) {
+        setBranches(branchesData);
+      } else {
+        setBranches([]);
+      }
 
       // Fetch Technicians
       const techRes = await fetch('/api/technicians');
       const techData = await techRes.json();
-      setTechnicians(techData.filter((t: any) => t.active));
+       if (Array.isArray(techData)) {
+        setTechnicians(techData.filter((t: any) => t.active));
+      } else {
+        setTechnicians([]);
+      }
 
       // Fetch Protocols
       const protocolsRes = await fetch('/api/protocols');
       const protocolsData = await protocolsRes.json();
+      const safeProtocolsData = Array.isArray(protocolsData) ? protocolsData : [];
 
       // Calculate Schedules
-      const schedulesData = branchesData.map((branch: any) => {
+       const activeBranches = Array.isArray(branchesData) ? branchesData : [];
+       const schedulesData = activeBranches.map((branch: any) => {
         // Find latest protocol for this branch
-        const lastProtocolRecord = protocolsData.find((p: any) => p.branchNumber === branch.branchNumber);
+        const lastProtocolRecord = safeProtocolsData.find((p: any) => p.branchNumber === branch.branchNumber);
         
         let lastDate: string | undefined;
         let nextDate: string;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+          import React, { useState, useEffect } from 'react';
 import { Branch } from '../types/cmms';
 import { Plus, Pencil, Trash2, Building2, MapPin, Hash, Calendar, Search, Upload } from 'lucide-react';
 import * as XLSX from 'xlsx';
@@ -19,10 +19,14 @@ export const BranchManager: React.FC = () => {
   const fetchBranches = async () => {
     try {
       const response = await fetch('/api/branches');
-      const data = await response.json();
-      setBranches(data);
+      if (Array.isArray(data)) {
+        setBranches(data);
+      } else {
+        setBranches([]);
+      }
     } catch (err) {
       console.error("Error fetching branches:", err);
+      setBranches([]);
     }
   };
 
