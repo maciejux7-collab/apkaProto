@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, uuid, jsonb, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, boolean, uuid, jsonb, integer } from 'drizzle-orm/pg-core';
 
 export const technicians = pgTable('technicians', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -7,6 +7,7 @@ export const technicians = pgTable('technicians', {
   phone: text('phone').notNull(),
   email: text('email'),
   company: text('company').default(''),
+  active: boolean('active').notNull().default(true),
   createdAt: timestamp('created_at').defaultNow(),
 });
 
@@ -16,6 +17,7 @@ export const branches = pgTable('branches', {
   city: text('city').notNull(),
   address: text('address').notNull(),
   branchType: text('branch_type').notNull().default('detal'),
+  maintenanceIntervalMonths: integer('maintenance_interval_months').default(6),
   lastMaintenanceDate: timestamp('last_maintenance_date'),
   createdAt: timestamp('created_at').defaultNow(),
 });

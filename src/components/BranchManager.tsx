@@ -19,8 +19,10 @@ export const BranchManager: React.FC = () => {
   const fetchBranches = async () => {
     try {
       const response = await fetch('/api/branches');
-      if (Array.isArray(data)) {
-        setBranches(data);
+      const bData = await response.json();
+      if (Array.isArray(bData)) {
+        setBranches(bData);
+	 
       } else {
         setBranches([]);
       }
@@ -133,9 +135,9 @@ export const BranchManager: React.FC = () => {
   const filteredBranches = branches.filter(b => {
     const searchLower = searchTerm.toLowerCase();
     return (
-      b.branchNumber.toLowerCase().includes(searchLower) ||
-      b.city.toLowerCase().includes(searchLower) ||
-      b.address.toLowerCase().includes(searchLower)
+      (b.branchNumber || '').toLowerCase().includes(searchLower) ||
+      (b.city || '').toLowerCase().includes(searchLower) ||
+      (b.address || '').toLowerCase().includes(searchLower)
     );
   });
 

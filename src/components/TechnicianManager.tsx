@@ -21,9 +21,9 @@ export const TechnicianManager: React.FC = () => {
   const fetchTechnicians = async () => {
     try {
       const response = await fetch('/api/technicians');
-      const data = await response.json();
-       if (Array.isArray(data)) {
-        setTechnicians(data);
+      const tData = await response.json();
+      if (Array.isArray(tData)) {
+        setTechnicians(tData);
       } else {
         setTechnicians([]);
       }
@@ -147,11 +147,11 @@ export const TechnicianManager: React.FC = () => {
 
   const filteredTechnicians = technicians.filter(tech => {
     const searchLower = searchTerm.toLowerCase();
-    return (
-      tech.firstName.toLowerCase().includes(searchLower) ||
-      tech.lastName.toLowerCase().includes(searchLower) ||
-      tech.email.toLowerCase().includes(searchLower) ||
-      tech.phone.toLowerCase().includes(searchLower)
+     return (
+      (tech.firstName || '').toLowerCase().includes(searchLower) ||
+      (tech.lastName || '').toLowerCase().includes(searchLower) ||
+      (tech.email || '').toLowerCase().includes(searchLower) ||
+      (tech.phone || '').toLowerCase().includes(searchLower)
     );
   });
 

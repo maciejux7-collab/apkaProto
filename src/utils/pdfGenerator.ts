@@ -448,7 +448,7 @@ export function generatePdfDocument(protocol: MaintenanceProtocol): jsPDF {
         doc.setFont('helvetica', 'bold');
         doc.text(sanitizeText(rightRow.name), rightX + 2, currentY + 4);
         doc.setFont('helvetica', 'normal');
-        const rightCapStr = rightRow.capacity === 'brak_aku' ? 'brak aku' : `${rightRow.capacity}Ah`;
+        const rightCapStr = rightRow.capacity === 'brak_aku' ? 'brak aku' : `${rightCapStr}Ah`;
         doc.text(`Pojemnoscz: ${rightCapStr}`, rightX + 2, currentY + 8);
         const effStr = rightRow.efficiency !== undefined ? `${rightRow.efficiency}%` : '---';
         doc.text(`Sprawnosc: ${effStr}`, rightX + 28, currentY + 8);
