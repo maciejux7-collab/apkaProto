@@ -214,6 +214,7 @@ async function startServer() {
       const recipients = ["artur236@poczta.onet.pl", "adrozdz94@gmail.com"];
 
       if (!smtpHost || !smtpUser || !smtpPass) {
+        console.log("SMTP not configured, returning success in test mode");
         return res.json({
           success: true,
           message: "Protokół został pomyślnie przetworzony! (Tryb testowy: e-mail nie został wysłany - brak konfiguracji SMTP).",
@@ -222,12 +223,13 @@ async function startServer() {
           timestamp: new Date().toISOString()
         });
       }
-
+      console.log(`Attempting to send email via ${smtpHost}:${smtpPort}...`);
       const transporter = nodemailer.createTransport({
         host: smtpHost,
         port: smtpPort,
         secure: smtpPort === 465,
         auth: { user: smtpUser, pass: smtpPass },
+		 connectionTimeout: 10000, // 10 seconds
       });
 
       const branchInfo = `${protocol.branch?.branchNumber || ''} - ${protocol.branch?.city || ''}`;
@@ -262,8 +264,13 @@ Wiadomość wygenerowana automatycznie.`;
       });
 
       return res.json({ success: true, message: "E-mail wysłany!", smtpConfigured: true });
-    } catch (error: any) {
-      return res.status(500).json({ success: false, error: error.message });
+    }  catch (error: any) {
+      console.error("Email error:", error);
+      let errorMessage = error.message;
+      if (error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+        errorMessage = `Błąd połączenia z serwerem SMTP (${error.code}). Jeśli używasz darmowego planu Render, porty SMTP (25, 465, 587) są zablokowane. Skorzystaj z API (np. Resend) lub wyślij e-mail przez program pocztowy.`;
+      }
+      return res.status(500).json({ success: false, error: errorMessage });
     }
   });
 
